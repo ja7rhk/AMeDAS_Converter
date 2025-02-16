@@ -5,6 +5,7 @@
 #include <ctime>
 #include <vector>
 #include <list>
+#include <algorithm>
 #include "amedas_data.h"
 #include "smet_convert.h"
 
@@ -67,7 +68,7 @@ int main(int argc, char* argv[])
     //}
 
     //*************************************
-    // アメダス観測データを読み込む
+    // SMETに変換する
     //*************************************
 
     if (altitude == 0)
@@ -77,7 +78,16 @@ int main(int argc, char* argv[])
     if (res)
         return -1;
 
-    res = write_smet(station_name, altitude);
+    std::string station = loc.station_name;
+    //小文字に変換する
+    std::transform(
+        station.begin(),
+        station.end(),
+        station.begin(),
+        [](char c) { return std::tolower(c); }
+    );
+
+    res = write_smet(station, altitude);
     if (res)
         return -1;
 

@@ -1,5 +1,4 @@
 #include "amedas_data.h"
-#include <algorithm>
 
 AMeDASData::AMeDASData() {
 
@@ -109,14 +108,6 @@ int read_loc(std::string station_name, double altitude)
         //***************************
         std::string col = read_feilds[c_station_name];
 
-        //大文字に変換する
-        std::transform(
-            STATION_NAME.begin(),
-            STATION_NAME.end(),
-            STATION_NAME.begin(),
-            [](char c) { return std::toupper(c); }
-        );
-
         if (col.compare(STATION_NAME) == 0)
         {
             loc.station = read_feilds[c_station];
@@ -141,6 +132,7 @@ int read_loc(std::string station_name, double altitude)
     // リスト内の各要素を表示
     std::cout << "station = " << loc.station << std::endl;
     std::cout << "station_id = " << loc.station_id << std::endl;
+    std::cout << "station_name = " << loc.station_name << std::endl;
     std::cout << "latitude = " << loc.latitude << std::endl;
     std::cout << "longitude = " << loc.longitude << std::endl;
     std::cout << "altitude = " << loc.altitude << "(m)" << std::endl;
@@ -169,13 +161,11 @@ int read_data(std::string inputFile)
     int16_t c_temp = 0, c_psum = 0, c_psum_snow = 0, c_hs = 0, c_daylight = 0, c_vw = 0, c_dw = 0, c_rh = 0;
     int16_t c_pressure_0 = 0, c_temp_0 = 0;
 
+    std::cout << "アメダス入力ファイル = " << inputFile << std::endl;
+
     // 読み込むcsvファイルを開く(std::ifstreamのコンストラクタで開く)
     std::ifstream ifs_csv_file(inputFile, std::ios::in);
-    if (ifs_csv_file.is_open())
-    {
-        std::cout << "アメダス入力ファイル = " << inputFile << std::endl;
-    }
-    else
+    if (!ifs_csv_file.is_open())
     {
         std::cout << "アメダス入力ファイルがありません" << std::endl;
         return -1;

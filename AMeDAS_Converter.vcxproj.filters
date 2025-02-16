@@ -35,6 +35,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="AMeDAS_Location.csv" />
-    <None Include="hakuba.csv" />
+    <None Include="HAKUBA.csv" />
   </ItemGroup>
 </Project>
